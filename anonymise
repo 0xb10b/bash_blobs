@@ -1,0 +1,19 @@
+#!/bin/bash
+
+txtoc="\e[0m"; # oc
+txtred="\e[31m"; # red
+txtgrn="\e[38;2;0;230;153m"; # green
+
+echo -e "${txtgrn}===============================";
+echo -e "${txtgrn}Macchanger\n${txtoc}";
+ifconfig eth0 down;
+macchanger -a eth0;
+echo -e "\n${txtgrn}===============================";
+echo -e "${txtgrn}Tor relay\n${txtoc}";
+ifconfig eth0 up;
+systemctl start tor;
+systemctl status tor;
+journalctl --rotate;
+journalctl --vacuum-time=1s >/dev/null 2>&1;
+echo -e "\n${txtgrn}===============================\n";
+echo -e "${txtred}Don't forget to configure and use proxychains(4) properly!${txtoc}";

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+txtoc="\e[0m"; # oc
+txtred="\e[30m"; # red
+txtgrn="\e[38;2;0;230;153m"; # green
+
+systemctl stop tor;
+echo -e "${txtgrn}===============================";
+echo -e "${txtgrn}Macchanger\n${txtoc}";
+ifconfig eth0 down;
+macchanger -p eth0;
+ifconfig eth0 up;
+echo -e "\n${txtgrn}===============================";
+echo -e "${txtgrn}Tor relay\n${txtoc}";
+systemctl status tor;
+journalctl --rotate;
+journalctl --vacuum-time=1s > /dev/null 2>&1;
+echo -e "\n${txtgrn}===============================\n";
