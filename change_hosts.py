@@ -13,7 +13,7 @@ def modify_hosts_file(new_hostname):
         if '127.0.1.1' in line:
             print('[+] Modifying /etc/hosts: ')
             print(f'    old: {line[:-1]}')
-            new_hosts.append(line.replace(line.split('\t')[-1], new_hostname + '\n'))
+            new_hosts.append(line.replace(line.replace(' ', '\t').split('\t')[-1], new_hostname + '\n'))
             print(f'    new: {new_hosts[-1][:-1]}')
         else:
             new_hosts.append(line)
