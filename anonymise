@@ -16,23 +16,31 @@ fi
 
 
 echo -e "${txtgrn}===============================";
-echo -e "${txtgrn}hostnamectl\n${txtoc}";
+echo -e "${txtgrn}hostnamectl set-hostname\n${txtoc}";
 hostnamectl set-hostname $new_hostname;
 hostnamectl;
 echo '';
+
 echo -e "${txtgrn}===============================";
 echo -e "${txtgrn}change_hostname.py\n${txtoc}";
 change_hosts.py $new_hostname;
+
 echo -e "\n${txtgrn}===============================";
 echo -e "${txtgrn}macchanger\n${txtoc}";
 ifconfig $interface down;
-macchanger -a $interface;
+if [ -z ${specific_mac+x} ]; then
+    macchanger --mac=$specific_mac
+else
+    macchanger -a $interface
+fi
 ifconfig $interface up;
+
 echo -e "\n${txtgrn}===============================";
 echo -e "${txtgrn}systemctl start tor\n${txtoc}";
 systemctl start tor;
 systemctl status tor;
 journalctl --rotate;
 journalctl --vacuum-time=1s >/dev/null 2>&1;
+
 echo -e "\n${txtgrn}===============================\n";
 echo -e "${txtred}Don't forget to configure and use proxychains(4) properly!${txtoc}";

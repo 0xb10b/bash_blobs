@@ -16,21 +16,29 @@ fi
 
 systemctl stop tor;
 echo -e "${txtgrn}===============================";
-echo -e "${txtgrn}hostnamectl\n${txtoc}";
+echo -e "${txtgrn}hostnamectl set-hostname\n${txtoc}";
 hostnamectl set-hostname $old_hostname;
 hostnamectl;
 echo '';
+
 echo -e "${txtgrn}===============================";
 echo -e "${txtgrn}change_hostname.py\n${txtoc}";
 change_hosts.py $old_hostname;
+
 echo -e "\n${txtgrn}===============================";
 echo -e "${txtgrn}macchanger\n${txtoc}";
 ifconfig $interface down;
-macchanger -p $interface;
+if [ -z ${specific_mac+x} ]; then
+    macchanger --mac=$specific_mac
+else
+    macchanger -a $interface
+fi
 ifconfig $interface up;
+
 echo -e "\n${txtgrn}===============================";
 echo -e "${txtgrn}systemctl stop tor\n${txtoc}";
 systemctl status tor;
 journalctl --rotate;
 journalctl --vacuum-time=1s > /dev/null 2>&1;
+
 echo -e "\n${txtgrn}===============================\n";
