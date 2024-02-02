@@ -28,11 +28,7 @@ change_hosts.py $old_hostname;
 echo -e "\n${txtgrn}===============================";
 echo -e "${txtgrn}macchanger\n${txtoc}";
 ifconfig $interface down;
-if [ -z ${specific_mac+x} ]; then
-    macchanger --mac=$specific_mac
-else
-    macchanger -a $interface
-fi
+macchanger -p $interface;
 ifconfig $interface up;
 
 echo -e "\n${txtgrn}===============================";
