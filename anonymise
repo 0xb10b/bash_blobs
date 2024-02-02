@@ -1,24 +1,28 @@
 #!/bin/bash
 
-######### Configs #########
-hostname='new-hostname';
-interface='eth0';
-####### End configs #######
-
+config_file=/etc/anon.conf
 
 txtoc="\e[0m"; # oc
 txtred="\e[31m"; # red
 txtgrn="\e[38;2;0;230;153m"; # green
 
 
+if test -f $config_file ; then
+    . $config_file;
+else
+    echo -e "${txtred}Error: No config file found at $config_file \nModify ${txtoc}bash_blobs/anon_template.conf${txtred} and copy it in $config_file."
+    exit 1
+fi
+
+
 echo -e "${txtgrn}===============================";
 echo -e "${txtgrn}hostnamectl\n${txtoc}";
-hostnamectl set-hostname $hostname;
+hostnamectl set-hostname $new_hostname;
 hostnamectl;
 echo '';
 echo -e "${txtgrn}===============================";
 echo -e "${txtgrn}change_hostname.py\n${txtoc}";
-change_hosts.py $hostname;
+change_hosts.py $new_hostname;
 echo -e "\n${txtgrn}===============================";
 echo -e "${txtgrn}macchanger\n${txtoc}";
 ifconfig $interface down;

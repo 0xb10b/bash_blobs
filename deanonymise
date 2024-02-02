@@ -1,13 +1,18 @@
 #!/bin/bash
 
-######### Configs #########
-hostname='old-hostname';
-interface='eth0';
-####### End configs #######
+config_file=/etc/anon.conf
 
 txtoc="\e[0m"; # oc
-txtred="\e[30m"; # red
+txtred="\e[31m"; # red
 txtgrn="\e[38;2;0;230;153m"; # green
+
+
+if test -f $config_file ; then
+    . $config_file;
+else
+    echo -e "${txtred}Error: No config file found at $config_file \nModify ${txtoc}bash_blobs/anon_template.conf${txtred} and copy it in $config_file."
+    exit 1
+fi
 
 systemctl stop tor;
 echo -e "${txtgrn}===============================";
