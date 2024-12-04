@@ -6,6 +6,8 @@ txtblu=$(tput setaf 4) # blue
 
 echo -e "${txtgrn}[!]${txtoc} Begin placing scripts...\n";
 
+echo -e "${txtblu}[+]${txtoc} Copying anon.conf in /etc";
+cp anon_template.conf /etc/anon.conf;
 
 echo -e "${txtblu}[+]${txtoc} Copying anonymise, deanonymise in /usr/bin";
 cp anonymise deanonymise /usr/bin/;
